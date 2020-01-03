@@ -4,8 +4,14 @@ module.exports = (sequelize, DataTypes) => {
 
   class Contact extends Model { }
   Contact.init({
-    name: DataTypes.STRING,
-    phone: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
+    },
+    phone: {
+      type: DataTypes.STRING,
+      validate: { len: [10, 14] }
+    }
   }, { sequelize });
   // Contact.associate = function(models) {
   //   // associations can be defined here

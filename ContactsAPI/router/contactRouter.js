@@ -6,6 +6,6 @@ const Contact = require('../controllers/contactController')
 contactRouter.get('/', Contact.showContacts);
 contactRouter.post('/', Contact.addContact);
 contactRouter.get('/:id', Contact.showContact);
-contactRouter.patch('/:id', Contact.updateContact);
-contactRouter.get('/:id/delete', Contact.deleteContact);
+contactRouter.put('/:id', Contact.updateContact);
+contactRouter.delete('/:id', Contact.deleteContact);
 module.exports = contactRouter;

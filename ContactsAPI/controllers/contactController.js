@@ -9,14 +9,17 @@ class ContactController {
       phone: req.body.phone
     }
     Contact.create(contact)
-      .then(() => res.redirect('/api/contacts'))
-      .catch(err => res.send(err.message))
+      .then(() => res.status(201).json({ msg: 'contact successfully created' }))
+      .catch(err => res.status(405).json({ msg: err.message }))
   }
 
   static showContact(req, res) {
     Contact.findOne({ where: { id: req.params.id } })
-      .then(result => res.send(result))
-      .catch(err => res.send(err.message))
+      .then(result => {
+        if (result) res.send(result)
+        else throw new Error('not found')
+      })
+      .catch((err) => res.status(404).json({ msg: err.message }))
   }
 
   static showContacts(req, res) {
@@ -25,8 +28,11 @@ class ContactController {
         ['id', 'DESC']
       ]
     })
-      .then(results => res.send(results))
-      .catch(err => res.send(err.message))
+      .then(results => {
+        if (results) res.send(results)
+        else throw new Error('contact list is empty')
+      })
+      .catch((err) => res.status(404).json({ msg: err.message }))
   }
 
   static updateContact(req, res) {
@@ -35,13 +41,13 @@ class ContactController {
       phone: req.body.phone
     }
     Contact.update(contact, { where: { id: req.params.id } })
-      .then(() => res.redirect('/api/contacts/' + req.params.id))
-      .catch(err => res.send(err.message))
+      .then(() => res.status(202).json({ msg: 'contact successfully updated' }))
+      .catch(err => res.status(405).json({ msg: err.message }))
   }
 
   static deleteContact(req, res) {
     Contact.destroy({ where: { id: req.params.id } })
-      .then(() => res.redirect('/api/contacts'))
+      .then(() => res.status(202).json({ msg: 'contact successfully deleted' }))
       .catch(err => res.send(err.message))
   }
 }

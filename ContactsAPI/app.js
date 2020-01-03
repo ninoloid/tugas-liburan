@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(express.urlencoded({ extended: false }));
 app.use('/api/contacts', require('./router/contactRouter'));
